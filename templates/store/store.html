@@ -126,27 +126,30 @@
     </header><!-- sect-heading -->
     
     <div class="row">
-        {% for product in products %}
-        <div class="col-md-4">
-            <figure class="card card-product-grid">
-                <div class="img-wrap"> 
-                    
-                   <a href="{{ product.get_url}}"><img src="{{product.images.url}}"></a> 
-                    
-                </div> <!-- img-wrap.// -->
-                <figcaption class="info-wrap">
-                    <div class="fix-height">
-                        <a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
-                        <div class="price-wrap mt-2">
-                            <span class="price">${{product.price}}</span>
-                        </div> <!-- price-wrap.// -->
-                    </div>
-                    <a href="{% url 'add_cart' product.id%}" class="btn btn-block btn-success">Agregar al carrito</a>
-                </figcaption>
-            </figure>
-        </div> <!-- col.// -->
-    
-        {% endfor %}
+        {%if products %}
+            {% for product in products %}
+            <div class="col-md-4">
+                <figure class="card card-product-grid">
+                    <div class="img-wrap"> 
+                        
+                    <a href="{{ product.get_url}}"><img src="{{product.images.url}}"></a> 
+                        
+                    </div> <!-- img-wrap.// -->
+                    <figcaption class="info-wrap">
+                        <div class="fix-height">
+                            <a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
+                            <div class="price-wrap mt-2">
+                                <span class="price">${{product.price}}</span>
+                            </div> <!-- price-wrap.// -->
+                        </div>
+                        <a href="{% url 'add_cart' product.id%}" class="btn btn-block btn-success">Agregar al carrito</a>
+                    </figcaption>
+                </figure>
+            </div> <!-- col.// -->
+            {% endfor %}
+        {%else %}
+        <div><h2>No se encontraron productos</h2></div>
+        {%endif%}
     </div> <!-- row end.// -->
     
     
