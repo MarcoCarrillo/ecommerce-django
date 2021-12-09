@@ -21,10 +21,18 @@ class RegistrationForm(forms.ModelForm):
         super(RegistrationForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].widget.attrs['placeholder'] = 'Ingrese su nombre'
         self.fields['last_name'].widget.attrs['placeholder'] = 'Ingrese sus apellidos'
-        self.fields['phone_number'].widget.attrs['placeholder'] = '+22 222 222 2222'
+        self.fields['phone_number'].widget.attrs['placeholder'] = '222 222 2222'
         self.fields['email'].widget.attrs['placeholder'] = 'user@email.com'
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
         
+    def clean(self):
+        cleaned_data = super(RegistrationForm, self).clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+        if password != confirm_password:
+            raise forms.ValidationError(
+                'El password no coincide!'
+            )
         
 
