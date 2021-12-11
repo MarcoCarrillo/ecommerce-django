@@ -45,8 +45,8 @@ def register(request):
             send_email.send()
                         
             #Alertas
-            messages.success(request, 'El usuario se registró correctamente')
-            return redirect('register')
+            
+            return redirect('/accounts/login/?command=verification&email='+email)
             
             
     context = {
@@ -80,3 +80,23 @@ def logout(request):
     messages.success(request, 'La sesión ha finalizado')
     
     return redirect('login')
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Account._default_manager.get(pk=uid)
+    
+    except (TypeError, ValueError, OverflowError, Account.DoesNotExist):
+        user = None 
+        
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Tu cuenta ha sido activada correctamente')
+        return redirect('login')
+    else: 
+        messages.error(request, 'Ups! Hubo un error de activacion')
+        return redirect('register')
+    
+    
