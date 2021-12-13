@@ -68,6 +68,7 @@ def login(request):
         
         user = auth.authenticate(email=email, password=password)
         
+        #Si el usuario pudo iniciar sesion
         if user is not None:
             #Si el usuario no esta logueado y agrega un item al carrito asignarle lo que tenga en el carrito cuando inicie sesion
             try:
@@ -75,9 +76,35 @@ def login(request):
                 is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
                 if is_cart_item_exists:
                     cart_item = CartItem.objects.filter(cart=cart)
+                    
+                    #Verificar variations de los items cuando no estaba en sesion y cuando si
+                    product_variation = []
                     for item in cart_item:
-                        item.user = user
-                        item.save()
+                        variation = item.variations.all()
+                        product_variation.append(list(variation))
+                        
+                    cart_item = CartItem.objects.filter(user=user)
+                    ex_var_list = []
+                    id = []
+                    for item in cart_item:
+                        existing_variation = item.variations.all()
+                        ex_var_list.append(list(existing_variation)) 
+                        id.append(item.id)
+                    
+                    for pr in product_variation:
+                        if pr in ex_var_list:
+                            index = ex_var_list.index(pr)
+                            item_id = id[index]
+                            item = CartItem.objects.get(id=item_id)
+                            item.quantity += 1
+                            item.user = user
+                            item.save()
+                        else:
+                            cart_item = CartItem.objects.filter(cart=cart) 
+                            for item in cart_item:
+                                item.user = user
+                                item.save()                  
+                                        
             except:
                 pass
                         
