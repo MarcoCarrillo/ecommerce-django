@@ -29,12 +29,14 @@ class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone = models.CharField(max_length=50)
+    email = models.CharField(max_length=50, default='')
     first_name = models.CharField(max_length=100)
     address_line_1 = models.CharField(max_length=100)
     address_line_2 = models.CharField(max_length=100)
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
-    country = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=50)
+    order_note = models.CharField(max_length=100, blank=True)
     order_total = models.FloatField()
     tax = models.FloatField()
     status = models.CharField(max_length=50, choices=STATUS, default='New')
@@ -44,7 +46,7 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.first_name
+        return self.first_name
     
 
 class OrderProduct(models.Model):
