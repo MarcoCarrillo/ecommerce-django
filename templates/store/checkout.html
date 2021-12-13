@@ -12,6 +12,7 @@
         <div class="card-body">
             <h4 class="card-title mb-4">Dirección de Facturación</h4>
             <form action='' method="post">
+                {% csrf_token %}
                 <div class="form-row">
                     <div class="col form-group">
                         <label for=''>Nombre</label>
@@ -60,7 +61,7 @@
                     <label for=''>Descripción de la orden</label>
                     <textarea name='order_note' class='form-control' rows='2'></textarea>
                 </div>
-            </form>
+            
         </div>
     </div> <!-- card.// -->
     
@@ -111,8 +112,9 @@
                         {%endfor%}
                         </tbody>
                         </table>
-                    <a href="./place-order.html" class="btn btn-primary btn-block"> Ordenar los productos </a>
+                    <button type='submit' name='submit' class="btn btn-primary btn-block"> Ordenar los productos </button>
                     <a href="{% url 'store'%}" class="btn btn-light btn-block">Continua comprando</a>
+                </form>
                 </div> <!-- card-body.// -->
             </div> <!-- card.// -->
     
