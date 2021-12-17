@@ -4,6 +4,7 @@ from .forms import OrderForm
 from .models import Order, Payment, OrderProduct
 import datetime
 import json
+from store.models import Product
 
 # Create your views here.
 
@@ -27,6 +28,7 @@ def payments(request):
     cart_items = CartItem.objects.filter(user=request.user)
 
     for item in cart_items:
+        #Orden de cada producto
         orderproduct = OrderProduct()
         orderproduct.order_id = order.id
         orderproduct.payment = payment
@@ -36,12 +38,19 @@ def payments(request):
         orderproduct.product_price = item.product.price
         orderproduct.ordered = True
         orderproduct.save()
-        
+        #Almacenar variations
         cart_item = CartItem.objects.get(id=item.id)
         product_variation = cart_item.variations.all()
         orderproduct = OrderProduct.objects.get(id=orderproduct.id)
         orderproduct.variation.set(product_variation)
         orderproduct.save()
+        #Actualizar stock 
+        product = Product.objects.get(id=item.product_id)
+        product.stock -= item.quantity
+        product.save()
+        
+        #Eliminar carrito cuando se complete la transaccion
+        CartItem.objects.filter(user=request.user).delete()
     
     return render(request, 'orders/payments.html')
 
