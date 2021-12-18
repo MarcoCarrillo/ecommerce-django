@@ -85,9 +85,9 @@
 		
 	</header>
 
-	<form action="" method="post">
+	<form action="{% url 'submit_review' single_product.id %}" method="post">
 		{% csrf_token %}
-
+		{% include 'includes/alerts.html' %}
 		<h5>Escribe tu comentario</h5>
 		<div>
 			<label>¿Como calificarias este producto?</label>
@@ -110,14 +110,20 @@
 			<br>
 
 			Comentario:
-			<textarea name='comentario' rows="4" class="form-control"></textarea>
+			<textarea name='review' rows="4" class="form-control"></textarea>
 			<br>
 
-			<input type='submit' value='Comentar' class="btn btn-primary mb-5">
+			{% if user.is_authenticated %}
+				<input type='submit' value='Comentar' class="btn btn-primary mb-5">
+			{% else %}
+				<p>Para enviar un comentario debes estar registrado, <span><a href="{% url 'login'%}">Inicia sesión!</a></span></p>
+			{% endif %}
 		</div>
+		
+		
 
 	</form>
-	
+
 	<h5>Comentarios</h5>
 	<article class="box mb-4">
 		<div class="icontext w-100">
