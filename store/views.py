@@ -7,6 +7,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from .forms import ReviewForm
 from django.contrib import messages
+from orders.models import OrderProduct
 # Create your views here.
 def store(request, category_slug=None):
     categories = None
@@ -43,9 +44,16 @@ def product_detail(request, category_slug, product_slug):
     except Exception as e:
         raise e
     
+    #Verificar que el user ya haya comprado el producto para poder comentar
+    try:
+        orderproduct = OrderProduct.objects.filter(user=request.user, product_id = single_product.id).exists()
+    except OrderProduct.DoesNotExist:
+        orderproduct = None    
+        
     context = {
         'single_product': single_product,
         'in_cart': in_cart,
+        'orderproduct' : orderproduct, 
     }            
     
     return render(request, 'store/product_detail.html', context)
@@ -88,3 +96,6 @@ def submit_review(request, product_id):
                 data.save()
                 messages.success(request, 'Muchas gracias por comentar!')
                 return redirect(url)
+            
+            
+            
