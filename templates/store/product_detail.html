@@ -78,12 +78,9 @@
 <br>
 
 <div class="row">
-			<div class="col-md-9">
-
-	<header class="section-heading">
-		<h3>Calificación de Clientes</h3>  
-		
-	</header>
+	<div class="col-md-9">
+			<h5 class="mb-4 rating-star">Calificación actual del producto <div>  <i class="fa fa-star"></i>  {{single_product.averageReview}}</div></h5>
+			
 
 	<form action="{% url 'submit_review' single_product.id %}" method="post">
 		{% csrf_token %}
