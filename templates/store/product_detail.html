@@ -59,12 +59,19 @@
 			</div> <!-- row.// -->
 			<div class="row">
 				<div class="item-option-select">
-					<h6>Seleccionar Talla</h6>
+					<h6>Seleccionar</h6>
 					<select class='form-control' name='talla' required>
 						<option value="" disabled selected>Seleccione</option>
-						{% for i in single_product.variation_set.tallas %}
-						<option value='{{ i.variation_value | lower }}'>{{ i.variation_value | capfirst }}</option>
-						{% endfor %}
+						{% if '/accesorios-tech/' in request.path %}
+							{% for i in single_product.variation_set.capacidad %}
+							<option value='{{ i.variation_value | lower }}'>{{ i.variation_value | capfirst }}</option>
+							{% endfor %}
+						
+						{% else %}
+							{% for i in single_product.variation_set.tallas %}
+							<option value='{{ i.variation_value | lower }}'>{{ i.variation_value | capfirst }}</option>
+							{% endfor %}
+						{%endif%}
 					</select>
 				</div>
 			</div> <!-- row.// -->

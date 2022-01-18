@@ -44,12 +44,16 @@ class VariationManager(models.Manager):
         return super(VariationManager, self).filter(variation_category='color', is_active=True)
     
     def tallas(self):
-        return super(VariationManager, self).filter(variation_category='talla', is_active=True)         
+        return super(VariationManager, self).filter(variation_category='talla', is_active=True) 
+    
+    def capacidad(self):
+        return super(VariationManager, self).filter(variation_category='capacidad', is_active=True)        
     
 
 variation_category_choice = (
     ('color', 'color'),
     ('talla', 'talla'),
+    ('capacidad', 'capacidad'),
 )
 
 class Variation(models.Model):
