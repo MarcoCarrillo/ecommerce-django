@@ -36,6 +36,13 @@ def register(request):
             #Guardar usuario 
             user.save()
             
+            
+            profile = UserProfile()
+            profile.user_id = user.id
+            profile.profile_picture = 'default/default-user.png'
+            profile.save()
+            
+            
             #Activacion de cuenta por correo
             current_site = get_current_site(request)
             mail_subject = 'Activacion de cuenta Ecommerce'
