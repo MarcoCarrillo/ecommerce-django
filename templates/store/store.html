@@ -26,7 +26,7 @@
                     <h6 class="title">Categorias</h6>
                 </a>
             </header>
-            <div class="filter-content collapse show" id="collapse_1" style="">
+            <div class="filter-content collapse show" id="collapse_1">
                 <div class="card-body">
                     
                     <ul class="list-menu">
@@ -43,10 +43,10 @@
             <header class="card-header">
                 <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
                     <i class="icon-control fa fa-chevron-down"></i>
-                    <h6 class="title">Tamanos </h6>
+                    <h6 class="title">Tamaños </h6>
                 </a>
             </header>
-            <div class="filter-content collapse show" id="collapse_4" style="">
+            <div class="filter-content collapse show" id="collapse_4" >
                 <div class="card-body">
                   <label class="checkbox-btn">
                     <input type="checkbox">
@@ -78,7 +78,7 @@
                     <h6 class="title">Precios </h6>
                 </a>
             </header>
-            <div class="filter-content collapse show" id="collapse_3" style="">
+            <div class="filter-content collapse show" id="collapse_3">
                 <div class="card-body">
                     
                     <div class="form-row">
@@ -141,7 +141,17 @@
                             <div class="price-wrap mt-2">
                                 <span class="price">${{product.price}}</span>
                             </div> <!-- price-wrap.// -->
+                            <div class="rating-star">
+                                <span>
+                                    <i class="fa fa-star{% if product.averageReview < 0.5 %}-o{%elif product.averageReview >= 0.5 and product.averageReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                    <i class="fa fa-star{% if product.averageReview < 1.5 %}-o{%elif product.averageReview >= 1.5 and product.averageReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                    <i class="fa fa-star{% if product.averageReview < 2.5 %}-o{%elif product.averageReview >= 2.5 and product.averageReview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                    <i class="fa fa-star{% if product.averageReview < 3.5 %}-o{%elif product.averageReview >= 3.5 and product.averageReview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                    <i class="fa fa-star{% if product.averageReview < 4.5 %}-o{%elif product.averageReview >= 4.5 and product.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
+                                </span>
+                            </div>
                         </div>
+                        
                         <a href="{% url 'add_cart' product.id%}" class="btn btn-block btn-success">Agregar al carrito</a>
                     </figcaption>
                 </figure>
